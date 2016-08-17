@@ -110,7 +110,7 @@ def check_alignment(detun_target,chi_square_target):
     space = -10
     data_points= (max_val - min_val) / space + 1
     f=np.linspace(min_val,max_val,data_points)
-    table=np.genfromtxt('calibrated_table.txt')
+    table=np.genfromtxt('calibrated_table_2.txt')
     powers=[]
     std=[]
     for i in f:
@@ -168,7 +168,7 @@ max_val = 96
 space = 6
 data_points= (max_val - min_val) / space + 1
 f=np.linspace(min_val,max_val,data_points)
-table=np.genfromtxt('calibrated_table.txt')
+table=np.genfromtxt('calibrated_table_2.txt')
 print(f)
 detun=24
 #############################################################################
@@ -179,7 +179,7 @@ detun=24
 
 
 ######################
-for j in np.linspace(6,7,2):
+for j in np.linspace(1,2,2):
 
     (d,p)=scan_table(table,DDS_address,freq=detun,detector='usbmini-counter',directo='test',umc_average=100)
     print('Powers at the selected detunning is ',p)
@@ -193,6 +193,7 @@ for j in np.linspace(6,7,2):
     print('Start checking alignment')
     approval1=check_alignment(detun_target,chi_square_target)
     print('Finish checking alignment')
+    
     #Check atoms
     print('Start checking atoms')
     approval2=check_atoms(dds1)
@@ -200,7 +201,7 @@ for j in np.linspace(6,7,2):
     if (approval1*approval2==0):
         print('Fail either one of the tests')
         print('Stopping the experiment')
-        sys.exit()
+    time.sleep(5)   
     scan_table(table,DDS_address,freq=detun,detector='usbmini-counter',directo='test',umc_average=10)
     message=lock_request()
     print(message)
@@ -224,7 +225,7 @@ for j in np.linspace(6,7,2):
 
         dds1.set_power(500)
         time.sleep(1)
-
+        
         (freq,power)=scan_table(table,DDS_address,freq=i,detector='usbmini-counter',umc_average=500)
         std.append(np.std(power))
         powers.append(np.mean(power))
@@ -253,7 +254,7 @@ for j in np.linspace(6,7,2):
     year = currentdate[0]
     month = currentdate[1]
     day =  currentdate[2]
-    base_folder='/home/qitlab/data/usbminicounter/nsplit'
+    base_folder='/home/qitlab/data/usbminicounter/nsplit_concentric_m20/'
     directory = base_folder + '/'+ year + '/'  + month + '/' + day  + '/'
     tar_path=directory+'s'+str(j)+'.dat'
     print(tar_path)

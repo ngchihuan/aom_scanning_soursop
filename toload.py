@@ -32,4 +32,4 @@ wf=WindFreakUsb2(wf_add)
 DDS_address = '/dev/ioboards/dds_QO0037'
 DDS_channel_probe=0
 dds_probe=DDSComm(DDS_address,DDS_channel_probe)
-table=np.genfromtxt('calibrated_table.txt')
+table=np.genfromtxt('calibrated_table_2.txt')

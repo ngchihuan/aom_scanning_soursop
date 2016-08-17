@@ -45,7 +45,6 @@ import numpy as np
 import time
 import timestampcontrol as tsc
 from Counter import Countercomm
-import matplotlib.pyplot as plt
 def setdds(table,channel,device,freq=180,fixamp=50):
     '''
     Retrieve rf power set to DDS for a frequency from the calibrated table(an array)
@@ -141,7 +140,7 @@ def scan_updown_setup(fs,fst,device,tableup,tabledown,directo,step=2,fixrfp=Fals
         apm=AnalogComm(analogpm_add)
     table=[]
     freq=np.arange(fs,fst,step)
-    average=200
+    average=10
     wavelength=780
     powers_adj=[]
     powers_adj_2=[]
@@ -305,7 +304,7 @@ def scan_updown_setup(fs,fst,device,tableup,tabledown,directo,step=2,fixrfp=Fals
     (fc,pc)=scan_table(table,DDS_address,detector='analog_pm')
     print('After correcting')
     print(fc,pc)
-    plt.plot(fc,pc,'-o',color='red')
+   # plt.plot(fc,pc,'-o',color='red')
     return (freq,np.array(powers)*1e6,np.array(powers_adj)*1e6,np.array(powers_adj_2)*1e6,table)
 
 def scan_table(table,DDS_address,freq=None,detector='pm',directo='probescan/settest', duration=5,umc_average=10):
@@ -319,7 +318,7 @@ def scan_table(table,DDS_address,freq=None,detector='pm',directo='probescan/sett
 
 
     '''
-    average=200
+    average=50
 
     wavelength=780
     if detector=='pm':
@@ -355,7 +354,7 @@ def scan_table(table,DDS_address,freq=None,detector='pm',directo='probescan/sett
         dds1= DDSComm(DDS_address,1)
         dds1.set_freq(fu)
         dds1.set_power(ampup)
-        time.sleep(2)
+        time.sleep(1)
         if detector=='pm':
                 value=[]
                 for m in range(average):
@@ -458,19 +457,12 @@ if __name__=='__main__':
     dtd=np.genfromtxt(tabledown)
     directo='probescan/set1'
     #scan_logic(0,tableup,tabledown,DDS_address,fixamp=0)#adjust power for compensation
-    '''    
-    (freq,powers,powers_adj,powers_adj_2,table)=scan_updown_setup(-100,100,DDS_address,tableup,tabledown,directo,step=2,detector='analog_pm',cf=True,target_power=0.1)
-    np.savetxt('calibrated_table_3.txt',table)
-    '''
+    (freq,powers,powers_adj,powers_adj_2,table)=scan_updown_setup(-100,100,DDS_address,tableup,tabledown,directo,step=2,detector='analog_pm',cf=True,target_power=0.09)
     #plt.plot(freq,powers,'-o')
-    
-    table = np.genfromtxt('calibrated_table_3.txt')
-    #(fc,pc)=scan_table(table,DDS_address,detector='analog_pm')
-    plt.plot(fc,pc)
 
-    #plt.plot(freq,powers_adj,'-o',color='blue')0
+    #plt.plot(freq,powers_adj,'-o',color='blue')
     #plt.plot(freq,powers_adj_2,'-o',color='red')
-    #freq=table[:,0]0
+    #freq=table[:,0]
     #plt.show()
     #table=np.genfromtxt('table_4_s40.txt')
     #pa=scanloop(-100,table)

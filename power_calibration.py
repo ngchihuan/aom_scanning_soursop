@@ -182,10 +182,7 @@ if __name__=="__main__":
     #plt.plot(freq_range,powers,'-o')#plot data to make sure it makes sense
     #plt.plot(freq_range,fixpowers,'-o',color='red')#plot data to make sure it makes sense
     
-    plt.xlabel('Frequency (MHz)')
-    plt.ylabel('Power (mW)')
-    plt.show()
-    fig2=plt.figure()
+   
     #plt.plot(freq_range,setpower,'-o',color='black')#plot data to make sure it makes sense1
     plt.show()
     #data = np.column_stack((freq_range,setpower,powers,powers_adj))
@@ -197,7 +194,8 @@ if __name__=="__main__":
     #print(mp)
     #plt.plot(p)
     downdat=np.genfromtxt('d_2.txt')
-    
+    (re,dump1,dump2)=aom_scan(freq_range,cf=True,pm_setrange=3,cal_data=updat,target_power=0.06/1000,k1=5e5,setpower_tolerance=1e-6)
+    '''
     for i in range(1):
         #(f,powers,std)=aom_scan(freq_range,cf=False,pm_setrange=3,cal_data=downdat,target_power=0.07/1000,k1=5e5)
         #f=re[:,0]
@@ -205,7 +203,7 @@ if __name__=="__main__":
         time.sleep(1)
         (re,dump1,dump2)=aom_scan(freq_range,cf=True,pm_setrange=3,cal_data=downdat,target_power=0.08/1000,k1=5e5)
         #plt.errorbar(f,powers,yerr=std,fmt='-o')
-    
+    '''
         
     
     

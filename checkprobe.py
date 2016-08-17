@@ -13,14 +13,14 @@ a=AnalogComm(analogpm_add)
 DDS_address = '/dev/ioboards/dds_QO0037'
 i = 0
 average=10
-min_val = 90
-max_val = -90
-space = -30
+min_val = -96
+max_val = 96
+space = 6
 data_points= (max_val - min_val) / space + 1
 f=np.linspace(min_val,max_val,data_points)
 powers=[]
 stds=[]
-
+table=np.genfromtxt('calibrated_table_2.txt')
 
 for i in f:
     scan_table(table,DDS_address,freq=i,detector='usbmini-counter',directo='test',duration=1)
@@ -30,9 +30,10 @@ for i in f:
         power.append(float(a.get_voltage(0)))
         time.sleep(1)
     powers.append(np.mean(power))
+    print(powers)
     stds.append(np.std(power))
 data=np.column_stack((powers,stds))
-np.savetxt('checkprobe.dat',data)
+np.savetxt('checkprobe_15_aug.dat',data)
 dds1=DDSComm(DDS_address,0)
 dds1.off()
 bg=0
