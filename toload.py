@@ -18,7 +18,7 @@ from subprocess import check_output, STDOUT, CalledProcessError
 from hameg_control_v2 import Hameg
 #zmq is a package for the communication between 2 programs
 import zmq
-from scipy.optimize import leastsq
+
 context = zmq.Context()
 import datetime
 import os
